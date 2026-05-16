@@ -1,13 +1,66 @@
-.DS_Store
-.gitignore
-node_modules
-public
-prof
-tsconfig.tsbuildinfo
-.obsidian
-.quartz-cache
+# ── Build outputs ────────────────────────────────────────────────────────────
+public/
+.quartz-cache/
+quartz/cli/tui/dist/
+
+# ── Dependencies ──────────────────────────────────────────────────────────────
+node_modules/
+
+# ── TypeScript ────────────────────────────────────────────────────────────────
+*.tsbuildinfo
+
+# ── Private / sensitive content ───────────────────────────────────────────────
 private/
+content/private/
+content/drafts/
+*.private.md
+
+# ── Environment & secrets ────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+credentials.json
+token.json
+secrets.json
+config.local.*
+
+# ── Obsidian workspace (contains personal plugin state, may include API keys) ─
+.obsidian/
+
+# ── AI / tool state ───────────────────────────────────────────────────────────
+.omc/
+.claude/
+
+# ── Profiling ─────────────────────────────────────────────────────────────────
+prof
+*.prof
+*.cpuprofile
+*.heapsnapshot
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── OS ───────────────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+desktop.ini
+
+# ── Editor ───────────────────────────────────────────────────────────────────
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Replit ───────────────────────────────────────────────────────────────────
 .replit
 replit.nix
-.quartz/
-quartz/cli/tui/dist/
