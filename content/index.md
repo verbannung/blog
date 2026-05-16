@@ -1,6 +1,6 @@
 ---
 title: 首页
-publish: true
+publish: "true"
 ---
 
 # 欢迎
