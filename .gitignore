@@ -64,3 +64,6 @@ desktop.ini
 # ── Replit ───────────────────────────────────────────────────────────────────
 .replit
 replit.nix
+
+public
+quartz/.quartz-cache
