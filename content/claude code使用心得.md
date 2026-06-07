@@ -9,7 +9,7 @@ tags:
 claude code 确实是一个非常好用的ai辅助工具，用于大型项目的重构和生成，然而在使用ai的使用有几个严重的痛点，以下是我的使用心得。
 ## 问题1.代码生成缺乏约束
 举个例子，大型项目一般有对应的架构约束，以python后端为例，我们一般会约定以领域划分包结构，并且区分api层，service层，mapper层 ,repository层，schema层，types类型文件约束。然而在ai编写的过程中，很容易造成其编排错误的情况,这个时候我们就需要 CLAUDE.md文件配合rules.md文件结合使用，定义代码和文件规范。
-![[Pasted-image-20260607221843.png]]
+![[Pasted image 20260607221843.png]]
 这个是claudecode的参考目录结构[菜鸟教程](https://www.runoob.com/claude-code/claude-code-project.html),我们在项目根目录创建CLAUDE.md文件，并且编写如
 ``` md
 ##项目纵览
