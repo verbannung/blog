@@ -1,5 +1,5 @@
 ---
-title: cmake学习(一) 核心概念和理解
+title: cmake的使用和理解
 tags:
   - tools
   - cmake
@@ -21,16 +21,49 @@ g++ main.o -o my_program  //链接并最终生成可执行文件
 ```
 每一次都要执行这么多命令，况且gcc/clang等等构建环境还不统一，那么自然需要一个跨平台的工具，一次性打包生成所有的构建命令，在统一执行构建，是不是就会轻松很多呢？这个就是cmake的作用。
 
-## cmake的核心概念 
-### Targets
+## cmake的核心概念 - Target 
+## target 的理解
+对于target 官方文档是这么描述的
 >Probably the most important item is targets. Targets represent executables, libraries, and utilities built by CMake. Every [`add_library`](https://cmake.org/cmake/help/latest/command/add_library.html#command:add_library "(in CMake v3.30.3)"), [`add_executable`](https://cmake.org/cmake/help/latest/command/add_executable.html#command:add_executable "(in CMake v3.30.3)"), and [`add_custom_target`](https://cmake.org/cmake/help/latest/command/add_custom_target.html#command:add_custom_target "(in CMake v3.30.3)") command creates a target. For example, the following command will create a target named “foo” that is a static library, with `foo1.c` and `foo2.c` as source files.
 
-这里说明了target其实是一个生成的最终结果，比如一个可执行文件，一个库等等。相当于我们刚刚把main.o变成一个my_program可执行文件，那么my_program就是一个target 
-其对应cmake的文件就是
-```  cmake
-add_library(foo STATIC foo1.c foo2.c)
+其实可以target可以理解为一个构建容器，即我们需要构建一个二进制文件，那么这个二进制文件的相关配置，需要一个target进行承载。构建target有add_library，add_executable,add_custom_target等方法
+
+>The term "target" comes from `make` command. `make` takes targets names as arguments and builds them using rules that specify what to do to create a specific target/file. In `make` a "target" is just a path to a file to produce, for example an actual executable name.
+
+
+[stackoverflow](https://stackoverflow.com/questions/74974399/what-is-a-target-in-cmake)
+
+
+## target 容器包含的内容
+
+>CMake will also propagate “usage requirements” from linked library targets. Usage requirements affect compilation of sources in the target. They are specified by properties defined on linked targets.
+
+我们可以对于这个target容器，添加其包含的内容。我们通过
+
+``` cmake
+add_library(foo foo.cxx)
+target_include_directories(foo PUBLIC
+                           "${CMAKE_CURRENT_BINARY_DIR}"
+                           "${CMAKE_CURRENT_SOURCE_DIR}"
+                           )
 ```
-这里的static我们后面会说明，其实是一个静态库还是一个动态库的区别(STATIC或者SHARED)[[cmake学习(二) 动态库和静态库]]
+
+告诉我们编译对应的cpp文件，并告诉hpp文件在哪里，这里需要知道hpp文件的原因是因为需要一个占位符知道这个函数签名以及所需要的空间等
+
+## target容器对外暴露的接口
+
+
+
+... 
+
+## target容器的构建方式
+参考我的另一个博客
+[[cmake学习(二) cmake的构建方式]]
+
+
+
+
+
 
 ## 参考
 [cmake官网-核心概念](https://cmake.org/cmake/help/book/mastering-cmake/chapter/Key%20Concepts.html#targets)
