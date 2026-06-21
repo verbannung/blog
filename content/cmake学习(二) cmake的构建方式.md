@@ -1,5 +1,5 @@
 ---
-title: cmake的使用和理解
+title: cmake学习(二) cmake的构建方式
 tags:
   - tools
   - cmake

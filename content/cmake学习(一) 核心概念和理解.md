@@ -1,5 +1,5 @@
 ---
-title: cmake的使用和理解
+title: cmake学习(一) 核心概念和理解
 tags:
   - tools
   - cmake
