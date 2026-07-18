@@ -6,7 +6,7 @@ tags:
 javascript是一种动态类型，其使用原型链的方式实现继承关系。
 
 ## 对象`[[Prototype]]`(`__proto__`) 属性
-`[[Prototype]]` 属性在很多Js之中实现为`__proto__` 属性 ，这个属性的作用是:**构成一个链条，查找值时，沿着链条向上找，找到了则返回对应的值，如果找到某一个__proto__为None，则返回undifined**
+`[[Prototype]]` 属性在很多Js之中实现为`__proto__` 属性 ，这个属性的作用是:**构成一个链条，查找值时，沿着链条向上找，找到了则返回对应的值，如果找到`[[Prototype]]`值为None，则返回undifined**
 
 
 我们看下面的一个例子
@@ -24,7 +24,7 @@ const demo1 = {
 ```
 运行结果是
 ![[Pasted image 20260718115727.png]]
-这里如果我们打印demo1的d这个属性，属性查找链条是`demo1->demo1.[[Prototype]]->demo1.[[Prototype]].[[Prototype]]->Object.[[Prototype]]->None` 依次查找属性
+这里查找demo某一个属性的链条是`demo1->demo1.[[Prototype]]->demo1.[[Prototype]].[[Prototype]]->Object.[[Prototype]]->None` ，找到即停，这就是属性遮蔽的原因。
 
 # 函数 `Prototype`属性
 
@@ -88,16 +88,40 @@ console.log(Demo3.c);     // 3
 console.log(Demo3.d);     // 4
 ```
 
+注意，这里仍然实现了原型链
+`demo3.prototype → Demo1Like.prototype → LayerC.prototype → LayerD.prototype → Object.prototype`
 实现效果和我们的第二节的例子代码一样，但是需要额外注意的是，内存结构中存在一些不同
 ![[Pasted image 20260718140011.png]]
 
-注意看 此处Demo3之中的a,b,c,d属性都是在Demo3实例对象上，**如果说存在很多个实例化对象，那么内存压力会有一些大**，而采用例二的对象`[[Prototype]]`(`__proto__`) 写法，则会内存压力小很多。
+注意看 此处Demo3之中的a,b,c,d属性都是在Demo3实例对象上，**如果说存在很多个实例化对象，那么内存压力会有一些大**，而采用第二节的对象`[[Prototype]]`(`__proto__`) 写法，则会内存压力小很多。
 
+
+当然，你也可以使用另一种更符合第二节的代码的原型继承方式即 
+``` ts
+class demo3 {
+    value: number;
+    constructor(value: number) {
+        this.value = value;
+    }
+}
+
+demo3.prototype = {
+    a: 1,
+    b: 2,
+    __proto__: {
+        c: 3,
+        __proto__: {
+            d: 4,
+        },
+    },
+};
+```
 
 ## 总结
 
 其实区分对象的`[[Prototype]]`(`__proto__`) 属性以及函数的`prototype`属性，就能理解这个是两套平行的班子。
 对象的`[[Prototype]]`(`__proto__`) 属性目的是为了**自身提供继承值**
 而函数的`prototype`属性则是为了**产生实例对象提供继承值**
+类则是简化了这种继承关系的表达。
 # 参考
 https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Inheritance_and_the_prototype_chain
