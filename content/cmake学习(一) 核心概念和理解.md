@@ -52,9 +52,29 @@ target_include_directories(foo PUBLIC
 
 ## target容器对外暴露的接口
 
+分为三种 分别是 
+1. INTERFACE 内部不依赖，外部使用者传递依赖
+2. PRIVATE 内部使用依赖，不传递依赖，使用第三方接口时推荐使用此方式
+3. PUBLIC 外部使用依赖，传递依赖
+   
+举个例子，考虑这样一个场景 
+有三个target，分别是demo1,demo2和main，其中demo1依赖demo2,main依赖demo1
+组合一:
+target_link_libraries(DEMO1 PUBLIC DEMO2) 
+target_link_libraries(MAIN PUBLIC DEMO1) 
+这种组合肯定是没有问题
+组合二:
+target_link_libraries(DEMO1 PRIVATE DEMO2) 
+target_link_libraries(MAIN PUBLIC DEMO1) 
+这样如果main中直接使用demo1的方法 出现错误，因为PRIVATE导致MAIN引入demo1的时候，不会出现DEMO2之中的方法函数
+>ld: symbol(s) not found for
 
 
-... 
+组合三:
+target_link_libraries(DEMO1 INTERFACE DEMO2)
+target_link_libraries(MAIN PUBLIC DEMO1)
+这个之中demo2会被传递出去，但是demo1不会依赖demo2之中的方法，否则会报错
+
 
 ## target容器的构建方式
 参考我的另一个博客

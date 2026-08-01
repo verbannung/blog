@@ -12,7 +12,7 @@ tags:
 ## 前提与约定
 
 - 一个 glb 可由多个 node 构成,node 之间通过引用形成场景树(scene graph)。
-- three.js 中对象的 `position` 存储在**父坐标系**下,而非世界坐标系。
+- three.js 中对象的 `position` 为**父坐标系**下的表达。
 
 为了方便，下面阐述三个坐标系:
 
@@ -97,7 +97,7 @@ three.js 按 `space` 分支,两条路径**过滤所在的系**与**返回 $P$ �
 
 | 步骤     | local 路径(且 `axis !== 'XYZ'`)        | world 路径(或 `axis === 'XYZ'`)                |
 | ------ | ----------------------------------- | ------------------------------------------- |
-| 进入过滤系  | 用 $q_{L\to W}^{*}$ 旋入 $L$           | **不旋转**,直接在 $W$ 系过滤                         |
+| 进入过滤系  | 用 $q_{L\to W}^{*}$ 旋入 $L$           | **不转基**,直接在 $W$ 系过滤                         |
 | 轴向过滤   | 在 $L$ 系                             | 在 $W$ 系                                     |
 | 返回 $P$ | 用 $q_{L\to P}$ (`_quaternionStart`) | 用 $q_{P\to W}^{*}$ (`_parentQuaternionInv`) |
 | 抵消缩放   | `.divide(_parentScale)`             | `.divide(_parentScale)`                     |
@@ -149,14 +149,17 @@ if ( planeIntersect ) {
 3. 轴向过滤:
     
     ```js
-    if ( axis.indexOf( 'X' ) === -1 ) this._offset.x = 0;if ( axis.indexOf( 'Y' ) === -1 ) this._offset.y = 0;if ( axis.indexOf( 'Z' ) === -1 ) this._offset.z = 0;
-    ```
+    if ( axis.indexOf( 'X' ) === - 1 ) this._offset.x = 0;
+			if ( axis.indexOf( 'Y' ) === - 1 ) this._offset.y = 0;
+			if ( axis.indexOf( 'Z' ) === - 1 ) this._offset.z = 0;
+	```
     
 4. 旋回父系并抵消缩放:`this._offset.applyQuaternion( this._quaternionStart ).divide( this._parentScale );`
 5. 叠加起始位置:`object.position.copy( this._offset ).add( this._positionStart );`
 6. 距离吸附(在 $L$ 系逐轴 `round` 后再旋回 $P$):
     
     ```js
+    //转回L系 并进行吸附
     object.position.applyQuaternion( _tempQuaternion.copy( this._quaternionStart ).invert() );
 
 					if ( axis.search( 'X' ) !== - 1 ) {
@@ -176,10 +179,11 @@ if ( planeIntersect ) {
 						object.position.z = Math.round( object.position.z / this.translationSnap ) * this.translationSnap;
 
 					}
-					//转回在父坐标系的对象表达
+					//转回P坐标系的对象表达
 					object.position.applyQuaternion( this._quaternionStart );    
 	```
 
 ### 3. `pointerUp`
 
 结束拖动,释放辅助平面等资源。
+
