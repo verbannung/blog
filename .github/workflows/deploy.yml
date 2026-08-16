@@ -21,18 +21,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0 # 完整历史，CreatedModifiedDate 插件依赖 git log
+          persist-credentials: false # 避免 GITHUB_TOKEN extraheader 导致后续 git clone 插件失败 (exit 128)
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: "npm"
 
       - name: Cache Quartz plugins
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .quartz/plugins
           key: ${{ runner.os }}-plugins-${{ hashFiles('quartz.lock.json') }}
@@ -49,7 +50,7 @@ jobs:
         run: npx quartz build
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: public
 
@@ -62,4 +63,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
