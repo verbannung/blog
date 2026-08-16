@@ -88,4 +88,5 @@ target_link_libraries(MAIN PUBLIC DEMO1)
 ## 参考
 [cmake官网-核心概念](https://cmake.org/cmake/help/book/mastering-cmake/chapter/Key%20Concepts.html#targets)
 
-#todo 待完成
+教学代码:
+[github cmake study](https://github.com/verbannung/study-cmake)
