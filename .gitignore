@@ -2,13 +2,14 @@
 public/
 .quartz-cache/
 .quartz/
+quartz/.quartz-cache/
 quartz/cli/tui/dist/
+dist/
+build/
+*.tsbuildinfo
 
 # ── Dependencies ──────────────────────────────────────────────────────────────
 node_modules/
-
-# ── TypeScript ────────────────────────────────────────────────────────────────
-*.tsbuildinfo
 
 # ── Private / sensitive content ───────────────────────────────────────────────
 private/
@@ -28,12 +29,35 @@ token.json
 secrets.json
 config.local.*
 
-# ── Obsidian workspace (contains personal plugin state, may include API keys) ─
+# ── Obsidian workspace (personal plugin state, may include API keys) ──────────
 .obsidian/
 
-# ── AI / tool state ───────────────────────────────────────────────────────────
-.omc/
+# ── AI / agent tooling (local IDE & assistant state) ──────────────────────────
+.cursor/
+.vscode/
+.idea/
 .claude/
+.codex/
+.agents/
+.omc/
+.continue/
+.windsurf/
+.aider*
+.codegraph
+.cursorrules
+.cursorignore
+AGENTS.md
+CLAUDE.md
+.mcp.json
+mcp.json
+
+# ── Test & coverage artifacts ─────────────────────────────────────────────────
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+.playwright/
+.turbo/
 
 # ── Profiling ─────────────────────────────────────────────────────────────────
 prof
@@ -46,6 +70,7 @@ prof
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
 # ── OS ───────────────────────────────────────────────────────────────────────
 .DS_Store
@@ -56,8 +81,7 @@ yarn-error.log*
 Thumbs.db
 desktop.ini
 
-# ── Editor ───────────────────────────────────────────────────────────────────
-.idea/
+# ── Editor swap files ────────────────────────────────────────────────────────
 *.swp
 *.swo
 *~
@@ -66,5 +90,7 @@ desktop.ini
 .replit
 replit.nix
 
-public
-quartz/.quartz-cache
+# ── Misc cache / temp ────────────────────────────────────────────────────────
+.cache/
+tmp/
+*.tmp

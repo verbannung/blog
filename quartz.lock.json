@@ -128,10 +128,10 @@
       "installedAt": "2026-03-11T18:22:52.983Z"
     },
     "footer": {
-      "source": "github:quartz-community/footer",
-      "resolved": "https://github.com/quartz-community/footer.git",
-      "commit": "f0fe3d6ca24624d955a4f4e62e5aafabe053f29e",
-      "installedAt": "2026-03-11T18:23:11.638Z"
+      "source": "./plugins/footer",
+      "resolved": "/Users/work/workSpace/wpersonal/blog/plugins/footer",
+      "commit": "local",
+      "installedAt": "2026-09-15T14:12:02.064Z"
     },
     "github-flavored-markdown": {
       "source": "github:quartz-community/github-flavored-markdown",

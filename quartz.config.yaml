@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
 configuration:
-  pageTitle: Quartz 5
+  pageTitle: verbannung's blog
   pageTitleSuffix: ""
   enableSPA: true
   enablePopovers: true
@@ -200,19 +200,18 @@ plugins:
       priority: 5
       condition: not-index
   - source: github:quartz-community/comments
-    enabled: false
+    enabled: true
     options:
       provider: giscus
-      options: {}
+      options:
+        repo: verbannung/blog
+        repoId: R_kgDOSe8WRA
+        category: Announcements
+        categoryId: DIC_kwDOSe8WRM4DFqiF
+        lang: zh-CN
     layout:
       position: afterBody
       priority: 10
-  - source: github:quartz-community/footer
-    enabled: true
-    options:
-      links:
-        GitHub: https://github.com/jackyzha0/quartz
-        Discord Community: https://discord.gg/cRFFHYye7t
   - source: github:quartz-community/recent-notes
     enabled: false
   - source: github:quartz-community/spacer
@@ -248,6 +247,17 @@ plugins:
     enabled: true
     options:
       theme: default
+  - source: ./plugins/footer
+    enabled: true
+    options:
+      email: verbannung@yeah.net
+      links:
+        GitHub: https://github.com/verbannung/blog
+    order: 50
+    layout:
+      position: footer
+      priority: 50
+      display: all
 layout:
   groups:
     toolbar:
