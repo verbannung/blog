@@ -243,8 +243,11 @@ plugins:
       position: beforeBody
       priority: 15
       display: all
-  - source: github:saberzero1/quartz-themes
-    enabled: true
+  # Disabled: upstream default branch is `master` (not `main`), and the Quartz
+  # entry lives under plugin/ without a committed dist — install fails with
+  # "Could not find main." Re-enable once installed via object source + subdir.
+  - source: github:saberzero1/quartz-themes#master
+    enabled: false
     options:
       theme: default
   - source: ./plugins/footer

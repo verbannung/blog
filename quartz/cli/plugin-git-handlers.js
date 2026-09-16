@@ -188,13 +188,25 @@ export async function handlePluginInstall() {
   for (const [name, entry] of Object.entries(lockfile.plugins)) {
     const pluginDir = path.join(PLUGINS_DIR, name)
 
-    // Local plugin: ensure symlink exists
+    // Local plugin: ensure symlink exists (resolve relative paths for CI portability)
     if (entry.commit === "local") {
       try {
+        const resolvedPath = path.resolve(entry.resolved)
         if (fs.existsSync(pluginDir)) {
           const stat = fs.lstatSync(pluginDir)
-          if (stat.isSymbolicLink() && fs.readlinkSync(pluginDir) === entry.resolved) {
+          let alreadyLinked = false
+          if (stat.isSymbolicLink()) {
+            try {
+              alreadyLinked = fs.realpathSync(pluginDir) === fs.realpathSync(resolvedPath)
+            } catch {
+              alreadyLinked = false
+            }
+          }
+          if (alreadyLinked) {
             console.log(styleText("gray", `  ✓ ${name} (local) already linked`))
+            if (needsBuild(pluginDir)) {
+              pluginsToBuild.push({ name, pluginDir })
+            }
             installed++
             continue
           }
@@ -202,13 +214,13 @@ export async function handlePluginInstall() {
           if (stat.isSymbolicLink()) fs.unlinkSync(pluginDir)
           else fs.rmSync(pluginDir, { recursive: true })
         }
-        if (!fs.existsSync(entry.resolved)) {
-          console.log(styleText("red", `  ✗ ${name}: local path missing: ${entry.resolved}`))
+        if (!fs.existsSync(resolvedPath)) {
+          console.log(styleText("red", `  ✗ ${name}: local path missing: ${resolvedPath}`))
           failed++
           continue
         }
         fs.mkdirSync(path.dirname(pluginDir), { recursive: true })
-        fs.symlinkSync(entry.resolved, pluginDir, "dir")
+        fs.symlinkSync(resolvedPath, pluginDir, "dir")
         console.log(styleText("green", `  ✓ ${name} (local) linked`))
         pluginsToBuild.push({ name, pluginDir })
         installed++

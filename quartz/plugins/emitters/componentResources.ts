@@ -53,6 +53,7 @@ function getComponentResources(ctx: BuildCtx): ComponentResources {
   }
 
   for (const component of allComponents) {
+    if (!component) continue
     const { css, beforeDOMLoaded, afterDOMLoaded } = component
     const normalizedCss = normalizeResource(css)
     const normalizedBeforeDOMLoaded = normalizeResource(beforeDOMLoaded)

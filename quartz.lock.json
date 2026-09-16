@@ -129,7 +129,7 @@
     },
     "footer": {
       "source": "./plugins/footer",
-      "resolved": "/Users/work/workSpace/wpersonal/blog/plugins/footer",
+      "resolved": "./plugins/footer",
       "commit": "local",
       "installedAt": "2026-09-15T14:12:02.064Z"
     },
